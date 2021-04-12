@@ -1,0 +1,15 @@
+int func(int a,int b,int c)
+{
+    int x = a+b+c;
+    return x;
+}
+
+int main()
+{
+    
+    int arr[10] = 10 + b;
+    print(func(a,b,c));
+    int x = func(a,b,c);
+    return bye;
+    
+}
