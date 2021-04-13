@@ -37,7 +37,8 @@ class Tokenizer:
     # lb -> lexeme beginning pointer
     lb = 0
     fp = 0                                                 # fp -> forward pointer
-
+    # Check if prev elem was a char error
+    prev_char_error = False
     # List of keywords, operators and delimiters to which we match
     keywords = ['int', 'float', 'boolean', 'string', 'while',
                 'until', 'if', 'else', 'true', 'false', 'print', 'return']
@@ -99,8 +100,7 @@ class Tokenizer:
         while self.fp < len(chars):
             self.string_flag = 0
             if not self.in_multiline_comment:
-                self.state, is_final_state = self.change_state(
-                    chars[self.fp], chars)
+                self.state, is_final_state = self.change_state(chars[self.fp], chars)
             # print(self.lb, self.fp, chr(chars[self.fp])) ##
             # print(self.state, is_final_state)
             # print("singlecomm = " + str(self.in_singleline_comment) + " " + "multicomm=" + str(self.in_multiline_comment))
@@ -120,6 +120,21 @@ class Tokenizer:
                               for i in range(self.lb, self.fp+1)))
                 self.token_list.append(
                     Token(self.error_state, lexeme_, self.lb, self.fp, line_number))
+                if self.error_state == "char_error":
+                    # print("in char_error;; chars[self.fp+1] = ")
+                    # print(ord(" "))
+                    is_prev_spl = self.token_list[-2].lexeme in (item for op in [self.operators, self.delimiters] for item in op)
+                    #print(is_prev_spl)
+                    if not is_prev_spl:
+                        self.token_list[-2].lexeme += self.token_list[-1].lexeme
+                        self.token_list[-1].lexeme = self.token_list[-2].lexeme
+                        self.token_list[-2].token = self.token_list[-1].token
+                        self.token_list[-2].lexeme = self.token_list[-1].lexeme
+                        self.token_list[-2].end = self.token_list[-1].end
+                        #print("1!#@##@#", self.token_list[-1].token)
+                        self.token_list.pop()
+                    if(chars[self.fp+1] != ord(" ")):
+                        self.prev_char_error = True 
                 self.previous_final_state = self.state
                 is_final_state = False
                 if self.string_flag == 1:
@@ -133,6 +148,16 @@ class Tokenizer:
                               for i in range(self.lb, self.fp+1)))
                 self.token_list.append(
                     Token(self.state, lexeme_, self.lb, self.fp, line_number))
+                if self.prev_char_error == True:
+                    self.token_list[-2].lexeme += self.token_list[-1].lexeme
+                    self.token_list[-1].lexeme = self.token_list[-2].lexeme
+                    self.token_list[-2].token = "char_error"
+                    self.token_list[-2].lexeme = self.token_list[-1].lexeme
+                    self.token_list[-2].end = self.token_list[-1].end
+                    #print("2!#@##@#", self.token_list[-1].token)
+                    self.token_list.pop()
+                    self.prev_char_error = False
+
                 self.previous_final_state = self.state
                 is_final_state = False
                 self.state = "start"
