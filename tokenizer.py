@@ -123,9 +123,11 @@ class Tokenizer:
                 if self.error_state == "char_error":
                     # print("in char_error;; chars[self.fp+1] = ")
                     # print(ord(" "))
-                    is_prev_spl = self.token_list[-2].lexeme in (item for op in [self.operators, self.delimiters] for item in op)
+                    is_prev_spl = False
+                    if len(self.token_list) >= 2:
+                        is_prev_spl = self.token_list[-2].lexeme in (item for op in [self.operators, self.delimiters] for item in op)
                     #print(is_prev_spl)
-                    if not is_prev_spl:
+                    if len(self.token_list) >= 2 and not is_prev_spl:
                         self.token_list[-2].lexeme += self.token_list[-1].lexeme
                         self.token_list[-1].lexeme = self.token_list[-2].lexeme
                         self.token_list[-2].token = self.token_list[-1].token
@@ -148,7 +150,7 @@ class Tokenizer:
                               for i in range(self.lb, self.fp+1)))
                 self.token_list.append(
                     Token(self.state, lexeme_, self.lb, self.fp, line_number))
-                if self.prev_char_error == True:
+                if len(self.token_list) >= 2 and self.prev_char_error == True:
                     self.token_list[-2].lexeme += self.token_list[-1].lexeme
                     self.token_list[-1].lexeme = self.token_list[-2].lexeme
                     self.token_list[-2].token = "char_error"
