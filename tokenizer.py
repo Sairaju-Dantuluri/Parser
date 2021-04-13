@@ -133,7 +133,7 @@ class Tokenizer:
                         self.token_list[-2].end = self.token_list[-1].end
                         #print("1!#@##@#", self.token_list[-1].token)
                         self.token_list.pop()
-                    if(chars[self.fp+1] != ord(" ")):
+                    if(self.fp+1 < len(chars) and chars[self.fp+1] != ord(" ")):
                         self.prev_char_error = True 
                 self.previous_final_state = self.state
                 is_final_state = False
