@@ -8,6 +8,12 @@ df = df.fillna('none')
 # print(df.columns)
 # print(firfol.head())
 # code testing
+errorfoundl = 0
+errorfoundp = 0
+
+
+def prRed(skk): print("\033[91m {}\033[00m" .format(skk))
+def prGreen(skk): print("\033[92m {}\033[00m" .format(skk))
 
 
 ############
@@ -27,33 +33,30 @@ def errorprinter(dat, inp):
             lis.append(col)
     st = ''
     for l in lis:
-        st += (', '+l)
+        st += ('  '+l)
     st = st[2:]
-    print('Expected one among :' + st + ' encountered '+inp)
+    prRed('Expected one among --> ' + st + ' encountered --> '+inp)
+
 
 def printTree(tree):
     print("--------------------TREE--------------------")
-    print()
-
-    for key in tree.keys():
-        print(key, " : ", tree[key])
-    print()
-    print("------------------------------------------------")
     print()
 
     plot_tree = treelib.Tree()
     plot_tree.create_node("S", 0)
     for key in tree.keys():
         #print("key = ", key)
+        pos = len(tree[key])-1
         for child in tree[key]:
             #print("child = ", child)
-            plot_tree.create_node(child[1], child[0], parent=key[0])
+            plot_tree.create_node(
+                str(pos) + " [" + child[1] + "]", child[0], parent=key[0])
+            pos -= 1
 
     plot_tree.show()
 
     print()
     print("--------------------------------------------")
-
 
 
 my_tokenizer = Tokenizer('input.txt')
@@ -63,7 +66,7 @@ nont = ['id', 'integer_literal', 'string_literal', 'float_literal', 'true', 'fal
         'relop_le', 'relop_lt', 'relop_ne', 'relop_ge', 'relop_gt', 'logical_and', 'logical_or', 'op_not']
 stack.append((0, 'S'))
 
-tree = { }
+tree = {}
 key = 0
 while len(stack) != 0 and finalinp == 0:
     # Getting next token from input file until we hit EOF
@@ -71,8 +74,9 @@ while len(stack) != 0 and finalinp == 0:
     token = my_tokenizer.get_next_token()
     inp = ''
     if token.token == "string_error" or token.token == "char_error" or token.token == "float_error" or token.token == "Invalid_Token":
-        print("[-] Lexical error encountered : " + token.lexeme + " at line " +
+        prRed("[-] Lexical error encountered : " + token.lexeme + " at line " +
               str(token.line) + " between position "+str(token.begin)+" - "+str(token.end))
+        errorfoundl += 1
         continue
     if token.token == "EOF":
         inp = '$'
@@ -86,12 +90,14 @@ while len(stack) != 0 and finalinp == 0:
     print("inp : ", inp)
     if stack[-1][1] == inp:
         print('stack : ', [elem[-1] for elem in stack])
-        print("Matched : "+inp)
+        prGreen("Matched : "+inp)
 
     while len(stack) != 0 and stack[-1][1] != inp and flag == 0:
         print('stack : ', [elem[-1] for elem in stack])
         if stack[-1][1] not in df.columns:
-            print('[-] Syntax error : expected ', stack[-1][1], 'got ', inp)
+            prRed('[-] Syntax error : expected ' +
+                  str(stack[-1][1]) + 'got ' + str(inp))
+            errorfoundp += 1
             stack.pop()
             continue
         rule = df[stack[-1][1]][inp]
@@ -100,14 +106,16 @@ while len(stack) != 0 and finalinp == 0:
         # print('rule  : ', rule)
         if rule == 'none':
             flag = 1
-            print(
+            prRed(
                 '[-] Syntax error : error detected on line ' + str(token.line) + ' at position ' + str(token.begin)+'.')
             errorprinter(stack[-1][1], inp)
+            errorfoundp += 1
             break
         elif rule == 'synch':
-            print(
+            prRed(
                 '[-] Syntax error : error detected on line ' + str(token.line) + ' at position ' + str(token.begin)+'.')
             errorprinter(stack[-1][1], inp)
+            errorfoundp += 1
             stack.pop()
             continue
         stack.pop()
@@ -117,7 +125,7 @@ while len(stack) != 0 and finalinp == 0:
         rule = (rule.split("::="))[-1]
         rule = ' '.join(rule.split())
         rule = rule.split(' ')
-    
+
         tree[(selectedkey, rule_lhs)] = []
         # print(rule)
         for r in reversed(rule):
@@ -125,16 +133,20 @@ while len(stack) != 0 and finalinp == 0:
             if r != 'ε':
                 stack.append((key, r))
             tree[(selectedkey, rule_lhs)].append((key, r))
-        tree[(selectedkey, rule_lhs)].reverse()            
-        
+        #tree[(selectedkey, rule_lhs)].reverse()
+
         if stack[-1][1] == inp:
             print('stack : ', [elem[-1] for elem in stack])
-            print("Matched : "+inp)
+            prGreen("Matched : "+inp)
     if flag == 0 and len(stack) != 0:
         stack.pop()
 print()
-print("**** PARSING COMPLETED ****")
-print()
-printTree(tree)
+if errorfoundl + errorfoundp == 0:
+    prGreen("**** PARSING COMPLETED WITHOUT ERRORS ****")
 
-#print('Parsing aborted')
+else:
+    prRed("**** PARSING COMPLETED WITH "+str(errorfoundl) +
+          " LEXICAL ERRORS AND " + str(errorfoundp)+" PARSER ERRORS ****")
+print()
+if errorfoundl + errorfoundp == 0:
+    printTree(tree)

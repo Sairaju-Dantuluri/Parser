@@ -1,1 +1,1 @@
-a = a + a
+int a = a+b;
