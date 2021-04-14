@@ -121,6 +121,7 @@ class Tokenizer:
                 self.token_list.append(
                     Token(self.error_state, lexeme_, self.lb, self.fp, line_number))
                 if self.error_state == "char_error":
+                    print("char_error lexeme_ = ", lexeme_)
                     # print("in char_error;; chars[self.fp+1] = ")
                     # print(ord(" "))
                     is_prev_spl = False
@@ -449,6 +450,7 @@ class Tokenizer:
             else:
                 self.retract()
                 self.state = "op_colon"
+                is_final_state = True
                 return self.state, is_final_state
 
         elif self.state == "lt0":                                      # If current state of DFA is "lt0"
