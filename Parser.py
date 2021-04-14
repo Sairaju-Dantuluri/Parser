@@ -7,6 +7,9 @@ df = df.fillna('none')
 # print(df.columns)
 # print(firfol.head())
 # code testing
+
+
+############
 for ind in firfol.columns:
     for fol in firfol[ind]['Follow'].split(","):
         fol = fol.replace(' ', '')
@@ -15,7 +18,19 @@ for ind in firfol.columns:
                 df[ind][fol] = 'synch'
                 #print(ind, fol)
 
-######
+
+def errorprinter(dat, inp):
+    lis = []
+    for col in df.index:
+        if df[dat][col] != 'none' and df[dat][col] != 'synch':
+            lis.append(col)
+    st = ''
+    for l in lis:
+        st += (', '+l)
+    st = st[2:]
+    print('Expected one among :' + st + ' encountered '+inp)
+
+
 my_tokenizer = Tokenizer('input.txt')
 stack = []
 finalinp = 0
@@ -27,6 +42,10 @@ while len(stack) != 0 and finalinp == 0:
     flag = 0
     token = my_tokenizer.get_next_token()
     inp = ''
+    if token.token == "string_error" or token.token == "char_error" or token.token == "float_error" or token.token == "Invalid_Token":
+        print("[-] Lexical error encountered : " + token.lexeme + " at line " +
+              str(token.line) + " between position "+str(token.begin)+" - "+str(token.end))
+        continue
     if token.token == "EOF":
         inp = '$'
         finalinp = 1
@@ -35,7 +54,12 @@ while len(stack) != 0 and finalinp == 0:
         inp = token.token
     else:
         inp = token.lexeme
+    print()
     print("inp : ", inp)
+    if stack[-1] == inp:
+        print('stack : ', stack)
+        print("Matched : "+inp)
+
     while len(stack) != 0 and stack[-1] != inp and flag == 0:
         print('stack : ', stack)
         if stack[-1] not in df.columns:
@@ -47,11 +71,13 @@ while len(stack) != 0 and finalinp == 0:
         if rule == 'none':
             flag = 1
             print(
-                '[-] Syntax error : error detected on ' + str(token.line) + '.')
+                '[-] Syntax error : error detected on line ' + str(token.line) + ' at position ' + str(token.begin)+'.')
+            errorprinter(stack[-1], inp)
             break
         elif rule == 'synch':
             print(
-                '[-] Syntax error : error detected on ' + str(token.line) + '.')
+                '[-] Syntax error : error detected on line ' + str(token.line) + ' at position ' + str(token.begin)+'.')
+            errorprinter(stack[-1], inp)
             stack.pop()
             continue
         stack.pop()
@@ -62,9 +88,12 @@ while len(stack) != 0 and finalinp == 0:
         for r in reversed(rule):
             if r != 'ε':
                 stack.append(r)
+        if stack[-1] == inp:
+            print('stack : ', stack)
+            print("Matched : "+inp)
     if flag == 0 and len(stack) != 0:
         stack.pop()
-
-print("Parsing successful")
+print()
+print("**** PARSING COMPLETED ****")
 
 #print('Parsing aborted')
