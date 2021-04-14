@@ -1,5 +1,6 @@
 import pandas as pd
 from tokenizer import Tokenizer
+import treelib
 df = pd.read_csv("Parsetable.csv", index_col=0).T
 firfol = pd.read_csv('First Follows.csv', index_col='Nonterminal').T
 firfol = firfol.fillna('none')
@@ -30,6 +31,28 @@ def errorprinter(dat, inp):
     st = st[2:]
     print('Expected one among :' + st + ' encountered '+inp)
 
+def printTree(tree):
+    print("--------------------TREE--------------------")
+    print()
+
+    for key in tree.keys():
+        print(key, " : ", tree[key])
+
+    # plot_tree = treelib.Tree()
+    # plot_tree.create_node("S", 0)
+    # for key in tree.keys():
+    #     print("key = ", key)
+    #     if key[0] == 0:
+    #         continue
+    #     for child in tree[key]:
+    #         plot_tree.create_node(child[1], child[0], parent=key[0])
+
+    # plot_tree.show()
+
+    print()
+    print("--------------------------------------------")
+
+
 
 my_tokenizer = Tokenizer('input.txt')
 stack = []
@@ -37,6 +60,9 @@ finalinp = 0
 nont = ['id', 'integer_literal', 'string_literal', 'float_literal', 'true', 'false', 'relop_eq', 'relop_eq',
         'relop_le', 'relop_lt', 'relop_ne', 'relop_ge', 'relop_gt', 'logical_and', 'logical_or', 'op_not']
 stack.append('S')
+
+tree = { }
+key = 0
 while len(stack) != 0 and finalinp == 0:
     # Getting next token from input file until we hit EOF
     flag = 0
@@ -81,13 +107,24 @@ while len(stack) != 0 and finalinp == 0:
             stack.pop()
             continue
         stack.pop()
+        rule_lhs = (rule.split("::="))[0]
+        rule_lhs = ' '.join(rule_lhs.split())
+        print("rule_lhs = '" + rule_lhs + "'")
         rule = (rule.split("::="))[-1]
         rule = ' '.join(rule.split())
         rule = rule.split(' ')
+    
         # print(rule)
         for r in reversed(rule):
             if r != 'ε':
                 stack.append(r)
+            
+        tree[(key, rule_lhs)] = []
+        oldkey = key
+        for r in rule:
+            key += 1
+            tree[(oldkey, rule_lhs)].append((key, r))
+        
         if stack[-1] == inp:
             print('stack : ', stack)
             print("Matched : "+inp)
@@ -95,5 +132,7 @@ while len(stack) != 0 and finalinp == 0:
         stack.pop()
 print()
 print("**** PARSING COMPLETED ****")
+print()
+printTree(tree)
 
 #print('Parsing aborted')
