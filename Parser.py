@@ -4,6 +4,7 @@ df = pd.read_csv("Parsetable.csv", index_col=0).T
 df = df.fillna('none')
 my_tokenizer = Tokenizer('input.txt')
 stack = []
+flag = 0
 nont = ['id', 'integer_literal', 'string_literal', 'float_literal', 'true', 'false', 'relop_eq', 'relop_eq',
         'relop_le', 'relop_lt', 'relop_ne', 'relop_ge', 'relop_gt', 'logical_and', 'logical_or', 'op_not']
 stack.append('S')
@@ -21,7 +22,7 @@ while len(stack) != 0:
         inp = token.lexeme
     print("inp : ", inp, "   token : ",
           token.token, "   lexeme : ", token.lexeme)
-    while stack[-1] != inp:
+    while stack[-1] != inp and flag == 0:
         print(stack)
         rule = df[stack[-1]][inp]
         print('rule  : ', rule)
@@ -33,8 +34,12 @@ while len(stack) != 0:
         for r in reversed(rule):
             if r == 'none':
                 print('error while parsing')
+                flag = 1
                 break
             if r != 'ε':
                 stack.append(r)
     stack.pop()
-print("Parsing successful")
+if flag == 0:
+    print("Parsing successful")
+else:
+    print('Parsing aborted')
