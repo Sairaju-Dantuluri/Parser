@@ -1,4 +1,4 @@
-,$,integer_literal,float_literal,string_literal,true,false,;,arith_stmt_lit,?,:,relop_lt,relop_gt,relop_le,relop_ge,relop_eq,relop_ne,op_not,logical_and,logical_or,id,(,),[,],=,",",+,-,*,/,%,{,},print,scan,if,else,return,while,until,int,float,boolean,string
+,$,integer_literal,float_literal,string_literal,true,false,;,arith_stmt_lit,?,:,relop_lt,relop_gt,relop_le,relop_ge,relop_eq,relop_ne,op_not,logical_and,logical_or,id,(,),[,],#ERROR!,",",#ERROR!,-,*,/,%,{,},print,scan,if,else,return,while,until,int,float,boolean,string
 S,S ::= S’ $,S ::= S’ $,S ::= S’ $,S ::= S’ $,S ::= S’ $,S ::= S’ $,,S ::= S’ $,,,,,,,,,,,,S ::= S’ $,S ::= S’ $,,,,,,,,,,,,,S ::= S’ $,S ::= S’ $,S ::= S’ $,,S ::= S’ $,S ::= S’ $,S ::= S’ $,S ::= S’ $,S ::= S’ $,S ::= S’ $,S ::= S’ $
 S’,S’ ::= ε,S’ ::= stmt S’,S’ ::= stmt S’,S’ ::= stmt S’,S’ ::= stmt S’,S’ ::= stmt S’,,S’ ::= stmt S’,,,,,,,,,,,,S’ ::= stmt S’,S’ ::= stmt S’,,,,,,,,,,,,S’ ::= ε,S’ ::= stmt S’,S’ ::= stmt S’,S’ ::= stmt S’,,S’ ::= stmt S’,S’ ::= stmt S’,S’ ::= stmt S’,S’ ::= stmt S’,S’ ::= stmt S’,S’ ::= stmt S’,S’ ::= stmt S’
 literal,,literal ::= integer_literal,literal ::= float_literal,literal ::= string_literal,literal ::= true,literal ::= false,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
@@ -17,7 +17,7 @@ arrbracket,,,,,,,arrbracket ::= ε,,arrbracket ::= ε,arrbracket ::= ε,arrbrack
 func,,,,,,,func ::= ε,,func ::= ε,func ::= ε,func ::= ε,func ::= ε,func ::= ε,func ::= ε,func ::= ε,func ::= ε,,func ::= ε,func ::= ε,,func ::= funuse_stmt,func ::= ε,,,,,func ::= ε,func ::= ε,func ::= ε,func ::= ε,func ::= ε,,,,,,,,,,,,,
 funuse_stmt,,,,,,,,,,,,,,,,,,,,,funuse_stmt ::= ( args ),,,,,,,,,,,,,,,,,,,,,,,
 args,,args ::= literal cargs,args ::= literal cargs,args ::= literal cargs,args ::= literal cargs,args ::= literal cargs,,,,,,,,,,,,,,args ::= id cargs,,args ::= ε,,,,,,,,,,,,,,,,,,,,,,
-cargs,,,,,,,,,,,,,,,,,,,,,,,,,,"cargs ::= , args",,,,,,,,,,,,,,,,,,
+cargs,,,,,,,,,,,,,,,,,,,,,,cargs ::= ε,,,,"cargs ::= , args",,,,,,,,,,,,,,,,,,
 arithm_stmt,,,,,,,arithm_stmt ::= ε,,arithm_stmt ::= ε,arithm_stmt ::= ε,arithm_stmt ::= op arthbracket,arithm_stmt ::= op arthbracket,arithm_stmt ::= op arthbracket,arithm_stmt ::= op arthbracket,arithm_stmt ::= op arthbracket,arithm_stmt ::= op arthbracket,,arithm_stmt ::= op arthbracket,arithm_stmt ::= op arthbracket,,,arithm_stmt ::= ε,,,,,arithm_stmt ::= op arthbracket,arithm_stmt ::= op arthbracket,arithm_stmt ::= op arthbracket,arithm_stmt ::= op arthbracket,arithm_stmt ::= op arthbracket,,,,,,,,,,,,,
 arthbracket,,arthbracket ::= idlitfun arithm_stmt,arthbracket ::= idlitfun arithm_stmt,arthbracket ::= idlitfun arithm_stmt,arthbracket ::= idlitfun arithm_stmt,arthbracket ::= idlitfun arithm_stmt,,,,,,,,,,,,,,arthbracket ::= idlitfun arithm_stmt,arthbracket ::= ( arthbracket ),,,,,,,,,,,,,,,,,,,,,,,
 arithm_stmt_lit,,arithm_stmt_lit ::= literal arithm_stmt,arithm_stmt_lit ::= literal arithm_stmt,arithm_stmt_lit ::= literal arithm_stmt,arithm_stmt_lit ::= literal arithm_stmt,arithm_stmt_lit ::= literal arithm_stmt,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
@@ -31,7 +31,7 @@ decl_stmt,,,,,,,decl_stmt ::= declstmt1 ass,,,,,,,,,,,,,,,,decl_stmt ::= declstm
 declstmt1,,,,,,,declstmt1 ::= ε,,,,,,,,,,,,,,,,declstmt1 ::= [ intlitid ],,declstmt1 ::= ε,,,,,,,,,,,,,,,,,,,
 intlitid,,intlitid ::= integer_literal,,,,,,,,,,,,,,,,,,intlitid ::= id,,,,,,,,,,,,,,,,,,,,,,,,
 ass,,,,,,,ass ::= ε,,,,,,,,,,,,,,,,,,ass ::= assign_stmt,,,,,,,,,,,,,,,,,,,
-print_stmt,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,print_stmt ::= print ( cond ),,,,,,,,,,
+print_stmt,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,print_stmt ::= print funuse_stmt,,,,,,,,,,
 scan_stmt,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,scan_stmt ::= scan funuse_stmt,,,,,,,,,
 if_stmt,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,if_stmt ::= if ( cond ) { S’ } else_stmt,,,,,,,,
 else_stmt,else_stmt ::= ε,else_stmt ::= ε,else_stmt ::= ε,else_stmt ::= ε,else_stmt ::= ε,else_stmt ::= ε,,else_stmt ::= ε,,,,,,,,,,,,else_stmt ::= ε,else_stmt ::= ε,,,,,,,,,,,,else_stmt ::= ε,else_stmt ::= ε,else_stmt ::= ε,else_stmt ::= ε,else_stmt ::= else elif_stmt,else_stmt ::= ε,else_stmt ::= ε,else_stmt ::= ε,else_stmt ::= ε,else_stmt ::= ε,else_stmt ::= ε,else_stmt ::= ε
