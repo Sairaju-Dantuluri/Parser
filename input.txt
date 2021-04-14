@@ -1,1 +1,10 @@
-a= a+b@c
+int func(int a, string b,float c)
+{
+    print(hellohello);
+    return 0;
+}
+
+int main()
+{
+    func(1,hello,1.12);
+}
