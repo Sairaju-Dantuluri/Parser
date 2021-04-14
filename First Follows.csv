@@ -17,7 +17,7 @@ arrbracket,✔,[,";, ?, ), relop_lt, relop_gt, relop_le, relop_ge, relop_eq, rel
 func,✔,(,";, ?, ), relop_lt, relop_gt, relop_le, relop_ge, relop_eq, relop_ne, logical_and, logical_or, +, -, *, /, %, :"
 funuse_stmt,✖,(,";, ?, ), relop_lt, relop_gt, relop_le, relop_ge, relop_eq, relop_ne, logical_and, logical_or, +, -, *, /, %, :"
 args,✔,"id, integer_literal, float_literal, string_literal, true, false",)
-cargs,✖,",",)
+cargs,✔,",",)
 arithm_stmt,✔,"relop_lt, relop_gt, relop_le, relop_ge, relop_eq, relop_ne, logical_and, logical_or, +, -, *, /, %",";, ?, ), :"
 arthbracket,✖,"(, id, integer_literal, float_literal, string_literal, true, false",";, ?, ), :"
 arithm_stmt_lit,✖,"integer_literal, float_literal, string_literal, true, false",
