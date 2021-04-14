@@ -37,17 +37,19 @@ def printTree(tree):
 
     for key in tree.keys():
         print(key, " : ", tree[key])
+    print()
+    print("------------------------------------------------")
+    print()
 
-    # plot_tree = treelib.Tree()
-    # plot_tree.create_node("S", 0)
-    # for key in tree.keys():
-    #     print("key = ", key)
-    #     if key[0] == 0:
-    #         continue
-    #     for child in tree[key]:
-    #         plot_tree.create_node(child[1], child[0], parent=key[0])
+    plot_tree = treelib.Tree()
+    plot_tree.create_node("S", 0)
+    for key in tree.keys():
+        #print("key = ", key)
+        for child in tree[key]:
+            #print("child = ", child)
+            plot_tree.create_node(child[1], child[0], parent=key[0])
 
-    # plot_tree.show()
+    plot_tree.show()
 
     print()
     print("--------------------------------------------")
@@ -59,7 +61,7 @@ stack = []
 finalinp = 0
 nont = ['id', 'integer_literal', 'string_literal', 'float_literal', 'true', 'false', 'relop_eq', 'relop_eq',
         'relop_le', 'relop_lt', 'relop_ne', 'relop_ge', 'relop_gt', 'logical_and', 'logical_or', 'op_not']
-stack.append('S')
+stack.append((0, 'S'))
 
 tree = { }
 key = 0
@@ -82,51 +84,51 @@ while len(stack) != 0 and finalinp == 0:
         inp = token.lexeme
     print()
     print("inp : ", inp)
-    if stack[-1] == inp:
-        print('stack : ', stack)
+    if stack[-1][1] == inp:
+        print('stack : ', [elem[-1] for elem in stack])
         print("Matched : "+inp)
 
-    while len(stack) != 0 and stack[-1] != inp and flag == 0:
-        print('stack : ', stack)
-        if stack[-1] not in df.columns:
-            print('[-] Syntax error : expected ', stack[-1], 'got ', inp)
+    while len(stack) != 0 and stack[-1][1] != inp and flag == 0:
+        print('stack : ', [elem[-1] for elem in stack])
+        if stack[-1][1] not in df.columns:
+            print('[-] Syntax error : expected ', stack[-1][1], 'got ', inp)
             stack.pop()
             continue
-        rule = df[stack[-1]][inp]
-        #print('rule  : ', rule)
+        rule = df[stack[-1][1]][inp]
+        selectedkey = stack[-1][0]
+        # print("selectedkey = ", selectedkey)
+        # print('rule  : ', rule)
         if rule == 'none':
             flag = 1
             print(
                 '[-] Syntax error : error detected on line ' + str(token.line) + ' at position ' + str(token.begin)+'.')
-            errorprinter(stack[-1], inp)
+            errorprinter(stack[-1][1], inp)
             break
         elif rule == 'synch':
             print(
                 '[-] Syntax error : error detected on line ' + str(token.line) + ' at position ' + str(token.begin)+'.')
-            errorprinter(stack[-1], inp)
+            errorprinter(stack[-1][1], inp)
             stack.pop()
             continue
         stack.pop()
         rule_lhs = (rule.split("::="))[0]
         rule_lhs = ' '.join(rule_lhs.split())
-        print("rule_lhs = '" + rule_lhs + "'")
+        # print("rule_lhs = '" + rule_lhs + "'")
         rule = (rule.split("::="))[-1]
         rule = ' '.join(rule.split())
         rule = rule.split(' ')
     
+        tree[(selectedkey, rule_lhs)] = []
         # print(rule)
         for r in reversed(rule):
-            if r != 'ε':
-                stack.append(r)
-            
-        tree[(key, rule_lhs)] = []
-        oldkey = key
-        for r in rule:
             key += 1
-            tree[(oldkey, rule_lhs)].append((key, r))
+            if r != 'ε':
+                stack.append((key, r))
+            tree[(selectedkey, rule_lhs)].append((key, r))
+        tree[(selectedkey, rule_lhs)].reverse()            
         
-        if stack[-1] == inp:
-            print('stack : ', stack)
+        if stack[-1][1] == inp:
+            print('stack : ', [elem[-1] for elem in stack])
             print("Matched : "+inp)
     if flag == 0 and len(stack) != 0:
         stack.pop()
