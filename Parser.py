@@ -133,7 +133,7 @@ while len(stack) != 0 and finalinp == 0:
             if r != 'ε':
                 stack.append((key, r))
             tree[(selectedkey, rule_lhs)].append((key, r))
-        #tree[(selectedkey, rule_lhs)].reverse()
+        tree[(selectedkey, rule_lhs)].reverse()
 
         if stack[-1][1] == inp:
             print('stack : ', [elem[-1] for elem in stack])
