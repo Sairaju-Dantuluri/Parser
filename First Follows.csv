@@ -1,7 +1,7 @@
 Nonterminal,Nullable?,First,Follow
 S,✖,"$, integer_literal, float_literal, string_literal, true, false, arith_stmt_lit, id, (, if, print, scan, return, while, until, int, float, boolean, string",
 S’,✔,"integer_literal, float_literal, string_literal, true, false, arith_stmt_lit, id, (, if, print, scan, return, while, until, int, float, boolean, string","}, $"
-literal,✖,"integer_literal, float_literal, string_literal, true, false",";, ?, ), relop_lt, relop_gt, relop_le, relop_ge, relop_eq, relop_ne, logical_and, logical_or, +, -, *, /, %, ,, id, integer_literal, float_literal, string_literal, true, false, :"
+literal,✖,"integer_literal, float_literal, string_literal, true, false",";, ?, ), relop_lt, relop_gt, relop_le, relop_ge, relop_eq, relop_ne, logical_and, logical_or, +, -, *, /, %, ,, :"
 stmt,✖,"integer_literal, float_literal, string_literal, true, false, arith_stmt_lit, id, (, if, print, scan, return, while, until, int, float, boolean, string","integer_literal, float_literal, string_literal, true, false, arith_stmt_lit, id, (, if, print, scan, return, while, until, int, float, boolean, string, }, $"
 cond,✖,"integer_literal, float_literal, string_literal, true, false, op_not, id, (, print, scan",":, ), ;"
 cond’,✔,?,":, ), ;"
@@ -17,7 +17,7 @@ arrbracket,✔,[,";, ?, ), relop_lt, relop_gt, relop_le, relop_ge, relop_eq, rel
 func,✔,(,";, ?, ), relop_lt, relop_gt, relop_le, relop_ge, relop_eq, relop_ne, logical_and, logical_or, +, -, *, /, %, :"
 funuse_stmt,✖,(,";, ?, ), relop_lt, relop_gt, relop_le, relop_ge, relop_eq, relop_ne, logical_and, logical_or, +, -, *, /, %, :"
 args,✔,"id, integer_literal, float_literal, string_literal, true, false",)
-cargs,✔,",, id, integer_literal, float_literal, string_literal, true, false",)
+cargs,✖,",",)
 arithm_stmt,✔,"relop_lt, relop_gt, relop_le, relop_ge, relop_eq, relop_ne, logical_and, logical_or, +, -, *, /, %",";, ?, ), :"
 arthbracket,✖,"(, id, integer_literal, float_literal, string_literal, true, false",";, ?, ), :"
 arithm_stmt_lit,✖,"integer_literal, float_literal, string_literal, true, false",
