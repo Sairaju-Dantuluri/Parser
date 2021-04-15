@@ -1,43 +1,42 @@
 Nonterminal,Nullable?,First,Follow
-S,✖,"$, integer_literal, float_literal, string_literal, true, false, arith_stmt_lit, id, (, if, print, scan, return, while, until, int, float, boolean, string",
-S’,✔,"integer_literal, float_literal, string_literal, true, false, arith_stmt_lit, id, (, if, print, scan, return, while, until, int, float, boolean, string","}, $"
-literal,✖,"integer_literal, float_literal, string_literal, true, false",";, ?, ), relop_lt, relop_gt, relop_le, relop_ge, relop_eq, relop_ne, logical_and, logical_or, +, -, *, /, %, ,, :"
-stmt,✖,"integer_literal, float_literal, string_literal, true, false, arith_stmt_lit, id, (, if, print, scan, return, while, until, int, float, boolean, string","integer_literal, float_literal, string_literal, true, false, arith_stmt_lit, id, (, if, print, scan, return, while, until, int, float, boolean, string, }, $"
-cond,✖,"integer_literal, float_literal, string_literal, true, false, op_not, id, (, print, scan",":, ), ;"
-cond’,✔,?,":, ), ;"
+S,✖,"$, integer_literal, float_literal, string_literal, true, false, arith_stmt_lit, if, while, until, return, op_not, id, (, print, scan, int, float, boolean, string",
+S’,✔,"integer_literal, float_literal, string_literal, true, false, arith_stmt_lit, if, while, until, return, op_not, id, (, print, scan, int, float, boolean, string","}, $"
+literal,✖,"integer_literal, float_literal, string_literal, true, false","?, ), ,, relop_lt, relop_gt, relop_le, relop_ge, relop_eq, relop_ne, logical_and, logical_or, +, -, *, /, %, ;, :"
+stmt,✖,"integer_literal, float_literal, string_literal, true, false, arith_stmt_lit, if, while, until, return, op_not, id, (, print, scan, int, float, boolean, string","integer_literal, float_literal, string_literal, true, false, arith_stmt_lit, if, while, until, return, op_not, id, (, print, scan, int, float, boolean, string, }, $"
+cond,✖,"integer_literal, float_literal, string_literal, true, false, arith_stmt_lit, op_not, id, (, print, scan",";, :, )"
+cond’,✔,?,"), ;, :"
 op,✖,"relop_lt, relop_gt, relop_le, relop_ge, relop_eq, relop_ne, logical_and, logical_or, +, -, *, /, %","(, id, integer_literal, float_literal, string_literal, true, false"
-relop1,✖,op_not,"integer_literal, float_literal, string_literal, true, false, op_not, id, (, print, scan"
-id_stmt,✖,"id, (",";, ?, ), :"
-assfunarth,✔,"[, (, relop_lt, relop_gt, relop_le, relop_ge, relop_eq, relop_ne, logical_and, logical_or, =, +, -, *, /, %",";, ?, ), :"
-assarth,✔,"[, relop_lt, relop_gt, relop_le, relop_ge, relop_eq, relop_ne, logical_and, logical_or, =, +, -, *, /, %",";, ?, ), :"
-assign_stmt,✖,=,";, ?, ), :"
-assbracket,✖,"(, id, integer_literal, float_literal, string_literal, true, false",";, ?, ), :"
-idlitfun,✖,"id, integer_literal, float_literal, string_literal, true, false",";, ?, ), relop_lt, relop_gt, relop_le, relop_ge, relop_eq, relop_ne, logical_and, logical_or, +, -, *, /, %, :"
-arrbracket,✔,[,";, ?, ), relop_lt, relop_gt, relop_le, relop_ge, relop_eq, relop_ne, logical_and, logical_or, +, -, *, /, %, (, :"
-func,✔,(,";, ?, ), relop_lt, relop_gt, relop_le, relop_ge, relop_eq, relop_ne, logical_and, logical_or, +, -, *, /, %, :"
-funuse_stmt,✖,(,";, ?, ), relop_lt, relop_gt, relop_le, relop_ge, relop_eq, relop_ne, logical_and, logical_or, +, -, *, /, %, :"
+id_stmt,✖,"id, (","?, ), ;, :"
+assfunarth,✔,"[, (, relop_lt, relop_gt, relop_le, relop_ge, relop_eq, relop_ne, logical_and, logical_or, =, +, -, *, /, %","?, ), ;, :"
+assarth,✔,"[, relop_lt, relop_gt, relop_le, relop_ge, relop_eq, relop_ne, logical_and, logical_or, =, +, -, *, /, %","?, ), ;, :"
+assign_stmt,✖,=,"?, ;, ), :"
+assbracket,✖,"(, id, integer_literal, float_literal, string_literal, true, false","?, ), ;, :"
+idlitfun,✖,"id, integer_literal, float_literal, string_literal, true, false","?, ), relop_lt, relop_gt, relop_le, relop_ge, relop_eq, relop_ne, logical_and, logical_or, +, -, *, /, %, ;, :"
+arrbracket,✔,[,"?, ), (, relop_lt, relop_gt, relop_le, relop_ge, relop_eq, relop_ne, logical_and, logical_or, +, -, *, /, %, ;, :"
+func,✔,(,"?, ), relop_lt, relop_gt, relop_le, relop_ge, relop_eq, relop_ne, logical_and, logical_or, +, -, *, /, %, ;, :"
+funuse_stmt,✖,(,"?, ), relop_lt, relop_gt, relop_le, relop_ge, relop_eq, relop_ne, logical_and, logical_or, +, -, *, /, %, ;, :"
 args,✔,"id, integer_literal, float_literal, string_literal, true, false",)
 cargs,✔,",",)
-arithm_stmt,✔,"relop_lt, relop_gt, relop_le, relop_ge, relop_eq, relop_ne, logical_and, logical_or, +, -, *, /, %",";, ?, ), :"
-arthbracket,✖,"(, id, integer_literal, float_literal, string_literal, true, false",";, ?, ), :"
+arithm_stmt,✔,"relop_lt, relop_gt, relop_le, relop_ge, relop_eq, relop_ne, logical_and, logical_or, +, -, *, /, %","?, ), ;, :"
+arthbracket,✖,"(, id, integer_literal, float_literal, string_literal, true, false","?, ), ;, :"
 arithm_stmt_lit,✖,"integer_literal, float_literal, string_literal, true, false",
 arithm_stmt_fun,✖,(,
-idtype_stmt,✖,"int, float, boolean, string","integer_literal, float_literal, string_literal, true, false, arith_stmt_lit, id, (, if, print, scan, return, while, until, int, float, boolean, string, }, $"
-fundec,✖,";, (, [, =","integer_literal, float_literal, string_literal, true, false, arith_stmt_lit, id, (, if, print, scan, return, while, until, int, float, boolean, string, }, $"
-function,✖,(,"integer_literal, float_literal, string_literal, true, false, arith_stmt_lit, id, (, if, print, scan, return, while, until, int, float, boolean, string, }, $"
+idtype_stmt,✖,"int, float, boolean, string","integer_literal, float_literal, string_literal, true, false, arith_stmt_lit, if, while, until, return, op_not, id, (, print, scan, int, float, boolean, string, }, $"
+fundec,✖,";, (, [, =","integer_literal, float_literal, string_literal, true, false, arith_stmt_lit, if, while, until, return, op_not, id, (, print, scan, int, float, boolean, string, }, $"
+function,✖,(,"integer_literal, float_literal, string_literal, true, false, arith_stmt_lit, if, while, until, return, op_not, id, (, print, scan, int, float, boolean, string, }, $"
 fundefparam,✔,"int, float, boolean, string",)
 fundefparam1,✔,",",)
 decl_stmt,✔,"[, =",;
 declstmt1,✔,[,";, ="
 intlitid,✖,"integer_literal, id",]
 ass,✔,=,;
-print_stmt,✖,print,";, ?, :, )"
-scan_stmt,✖,scan,";, ?, :, )"
-if_stmt,✖,if,"integer_literal, float_literal, string_literal, true, false, arith_stmt_lit, id, (, if, print, scan, return, while, until, int, float, boolean, string, }, $"
-else_stmt,✔,else,"integer_literal, float_literal, string_literal, true, false, arith_stmt_lit, id, (, if, print, scan, return, while, until, int, float, boolean, string, }, $"
-elif_stmt,✖,"if, {","integer_literal, float_literal, string_literal, true, false, arith_stmt_lit, id, (, if, print, scan, return, while, until, int, float, boolean, string, }, $"
+print_stmt,✖,print,"?, ;, :, )"
+scan_stmt,✖,scan,"?, ;, :, )"
+if_stmt,✖,if,"integer_literal, float_literal, string_literal, true, false, arith_stmt_lit, if, while, until, return, op_not, id, (, print, scan, int, float, boolean, string, }, $"
+else_stmt,✔,else,"integer_literal, float_literal, string_literal, true, false, arith_stmt_lit, if, while, until, return, op_not, id, (, print, scan, int, float, boolean, string, }, $"
+elif_stmt,✖,"if, {","integer_literal, float_literal, string_literal, true, false, arith_stmt_lit, if, while, until, return, op_not, id, (, print, scan, int, float, boolean, string, }, $"
 return_stmt,✖,return,;
-ret_type,✔,"integer_literal, float_literal, string_literal, true, false, op_not, id, (, print, scan",;
-loop_stmt,✖,"while, until","integer_literal, float_literal, string_literal, true, false, arith_stmt_lit, id, (, if, print, scan, return, while, until, int, float, boolean, string, }, $"
-loop_stmt’,✖,(,"integer_literal, float_literal, string_literal, true, false, arith_stmt_lit, id, (, if, print, scan, return, while, until, int, float, boolean, string, }, $"
+ret_type,✔,"integer_literal, float_literal, string_literal, true, false, arith_stmt_lit, op_not, id, (, print, scan",;
+loop_stmt,✖,"while, until","integer_literal, float_literal, string_literal, true, false, arith_stmt_lit, if, while, until, return, op_not, id, (, print, scan, int, float, boolean, string, }, $"
+loop_stmt’,✖,(,"integer_literal, float_literal, string_literal, true, false, arith_stmt_lit, if, while, until, return, op_not, id, (, print, scan, int, float, boolean, string, }, $"
 idtype,✖,"int, float, boolean, string",id
